@@ -1,0 +1,68 @@
+.container
+{
+    width: 85%;
+    margin: 5rem auto;
+    .row
+    {
+        display: flex;
+        gap:20px;      
+    }
+    .col
+    {
+        width: 50%;
+    }
+    .image
+    {
+        overflow: hidden;
+    }
+    .image img
+    {
+        width: 100%;
+    }
+    .form
+    {
+        display: flex;
+        justify-content: center;
+        background-color: aqua;
+    }
+    .col form
+    {
+        display: flex;
+        flex-direction: column;
+    }
+    .col form input
+    {
+        padding: 10px;
+    }
+    .btn
+    {
+        padding: 10px;
+        width: 100%;
+    }
+    .txt
+    {
+        display: block;
+        margin:0.5rem 0rem ;
+    }
+    .error-msg
+    {
+        color: red;
+    }
+}
+.header
+{
+    background-color: aqua;
+    padding: 25px 0px;
+    .header-container
+    {
+        width: 85%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    .links
+    {
+        text-decoration: none;
+        display: block;
+    }
+}

@@ -1,0 +1,112 @@
+import React, { useEffect, useState } from "react";
+import Header from "../Header/Header";
+import { useContext } from "react";
+import { context } from "../Context/Context";
+const Home = () => {
+  var { state, dispatch } = useContext(context);
+  let [prorityFilter,setPrority]=useState(false);
+  let [completionFilter,setCompletion]=useState(false);
+  const [details,changeDetails]=useState([...state.task])
+  console.log('state',state);
+  console.log(prorityFilter,completionFilter)
+
+  useEffect(()=>{
+    changeDetails([...state.task])
+  },[state.task])
+
+  var handlingInput1=(index)=>
+  {
+     state.task[index].taskPrority=!(state.task[index].taskPrority); 
+  }
+  var handlingInput2=(index)=>
+  {
+      state.task[index].taskCompletion=!(state.task[index].taskCompletion); 
+  }
+  var deleteValues=(index)=>
+  {
+   let task=state.task;
+    state.task.splice(index,1);
+    state.task=task;
+    dispatch({
+      type:'delete',
+      payload:task,
+    })
+    console.log(task);
+  }
+ 
+  useEffect(()=>{
+      var tasks;
+      if(prorityFilter===true && completionFilter==false)
+      {
+        tasks= [...state.task].filter((value)=>
+        {
+          return value.taskPrority===true;
+        })
+
+        changeDetails(tasks)
+      }
+      else if(prorityFilter===false && completionFilter===true)
+      {
+        tasks=[...state.task].filter((value)=>{
+          return value.taskCompletion===true;
+        })
+
+        changeDetails(tasks)
+      }
+      else if(prorityFilter===true && completionFilter===true){
+        tasks=[...state.task].filter((value)=>{
+          return value.taskCompletion===true && value.taskPrority===true;
+        })
+
+        changeDetails(tasks)
+      }
+      else 
+      {
+
+         changeDetails([...state.task])
+    }
+    console.log('tasks',tasks)
+  },[prorityFilter,completionFilter])
+  return (
+    <div>
+      <Header />
+      <div>
+        <h1>Add Tasks</h1>
+        <input type={'checkbox'} onChange={(ev)=>setPrority(ev.target.checked)} name='prorityFilter'/><label>Prority</label>
+        <input type={'checkbox'} onChange={(ev)=>setCompletion(ev.target.checked)} name='completionFilter'/><label>Completion</label>
+        {details.map((value, index) => {
+          return (
+            <div key={index}>
+              <p>Task - {index + 1}</p>
+              <p>Task Name{value.taskName}</p>
+              <p>Task Description{value.taskDescription}</p>
+              <p>
+                <span>Task Prority</span>
+                <input
+                  type={"checkbox"}
+                  checked={value.taskPrority}
+                  onChange={() =>
+                    handlingInput1(index)
+                  }
+                />
+              </p>
+              <p>
+                <span>Task Completion</span>
+                <input
+                  type={"checkbox"}
+                  checked={value.taskCompletion}
+                  onChange={() =>
+                    handlingInput2(index)
+                  }
+                />
+              </p>
+              <button onClick={()=>deleteValues(index)}>Delete</button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
